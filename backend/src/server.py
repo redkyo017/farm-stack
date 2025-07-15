@@ -3,6 +3,9 @@ from datetime import datetime
 import os
 import sys
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from bson import ObjectId
 from fastapi import FastAPI, status
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -48,7 +51,7 @@ class NewListResponse(BaseModel):
     id: str
     name: str
 
-@app.post("/api/lists", status_code=status.HTTP_201_CREADTED)
+@app.post("/api/lists", status_code=status.HTTP_201_CREATED)
 async def create_todo_list(new_list: NewList) -> NewListResponse:
     return NewListResponse(
         id=await app.todo_dal.create_todo_list(new_list.name),
@@ -71,7 +74,7 @@ class NewItemResponse(BaseModel):
     id: str
     label: str
 
-@app.Post("/api/lists/{list_id}/items/", status_code=status.HTTP_201_CREATED)
+@app.post("/api/lists/{list_id}/items/", status_code=status.HTTP_201_CREATED)
 async def create_item(list_id: str, new_item: NewItem) -> ToDoList:
     return await app.todo_dal.create_item(list_id, new_item.label)
 

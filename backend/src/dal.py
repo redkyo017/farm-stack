@@ -1,5 +1,5 @@
 from bson import ObjectId
-from motor.motor_asyncio import AsyncAIMotorCollection
+from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from pymongo import ReturnDocument
 
 from pydantic import BaseModel
@@ -46,7 +46,7 @@ class ToDoList(BaseModel):
         )
 
 class ToDoDAL:
-    def __init__(self, todo_collection: AsyncAIMotorCollection):
+    def __init__(self, todo_collection: AsyncIOMotorDatabase):
         self._todo_collection = todo_collection
     
     async def list_todo_lists(self, session=None):
@@ -89,7 +89,7 @@ class ToDoDAL:
         session=None,
     ) -> ToDoList | None :
         result = await self._todo_collection.find_one_and_update(
-            {"_id"}: ObjectId(id),
+            {"_id": ObjectId(id)},
             {
                 "$push": {
                     "items": {
