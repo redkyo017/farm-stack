@@ -8,6 +8,7 @@ load_dotenv()
 
 from bson import ObjectId
 from fastapi import FastAPI, status
+from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
 import uvicorn
@@ -39,6 +40,13 @@ async def lifespan(app: FastAPI):
     client.close()
 
 app = FastAPI(lifespan=lifespan, debug=DEBUG)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/api/lists")
 async def get_all_lists() -> list[ListSummary]:

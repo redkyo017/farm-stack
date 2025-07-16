@@ -9,7 +9,7 @@ function ListToDoLists({
   handleDeleteToDoList,
 }) {
   const labelRef = useRef();
-
+  console.log("con co be be", listSummaries)
   if (listSummaries === null) {
     return <div className="ListToDoLists loading">Loading to-do lists ...</div>;
   } else if (listSummaries.length === 0) {

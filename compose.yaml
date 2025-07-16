@@ -15,6 +15,7 @@ services:
     working_dir: /home/node/app
     environment:
       - NODE_ENV=development
+      - SERVER_HOST=http://localhost:3001
       - WDS_SOCKET_PORT=0
     volumes:
       - ./frontend/:/home/node/app
@@ -31,8 +32,9 @@ services:
     expose:
       - "3001"
     ports:
-      - "8001:3001"
-    command: "python src/server.py"
+      - "3001:3001"
+    # command: "python src/server.py"
+    command: "uvicorn src.server:app --port 3001"
     environment:
       - DEBUG=true
     env_file:
