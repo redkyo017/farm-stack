@@ -12,7 +12,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
 import uvicorn
 
-from dal import ToDoDAL, ListSummary, ToDoList
+from src.dal import ToDoDAL, ListSummary, ToDoList
 
 COLLECTION_NAME = "todo_list"
 MONGODB_URI = os.environ["MONGODB_URI"]
@@ -32,7 +32,7 @@ async def lifespan(app: FastAPI):
     todo_lists = database.get_collection(COLLECTION_NAME)
     app.todo_dal = ToDoDAL(todo_lists)
 
-    # Yeild back to FastAPI Application
+    # Yield back to FastAPI Application
     yield
 
     # Shutdown
